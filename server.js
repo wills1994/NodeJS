@@ -28,7 +28,7 @@ router.patch("/",function(req, res){
 router.delete("/",function(req, res){
     console.log(req.body);
     console.log(req.query);
-    res.send("Mensaje añadido "+ req.body.text+" desde post)");
+    res.send("Mensaje añadido hola "+ req.body.text+" desde post)");
   });
 
 app.listen(3000);
