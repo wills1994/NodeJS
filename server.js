@@ -14,8 +14,13 @@ app.use('/', function(req, resp){
 */
 
 router.get("/message", function(req, res){
-    res.send("peticion de get");
+  console.log(req.headers);
+    
+  res.header({
+      "custom-header": "Nuestro valor predeterminado"
   });
+  res.send("peticion de get");
+});
 
 router.post("/", function(req, res){
     res.send("Mensaje añadido "+ req.body.text+"  desde post)");
@@ -26,8 +31,8 @@ router.patch("/",function(req, res){
   });
 
 router.delete("/",function(req, res){
-    console.log(req.body);
-    console.log(req.query);
+    //console.log(req.body);
+    //console.log(req.query);
     res.send("Mensaje añadido hola "+ req.body.text+" desde post)");
   });
 
