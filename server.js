@@ -21,19 +21,24 @@ router.get("/message", function(req, res){
   });
   res.send("peticion de get");
 });
-
+/*
 router.post("/", function(req, res){
     res.send("Mensaje añadido "+ req.body.text+"  desde post)");
-  });
+  });*/
 
 router.patch("/",function(req, res){
     res.send("peticion de patch");
   });
 
-router.delete("/",function(req, res){
-    //console.log(req.body);
-    //console.log(req.query);
-    res.send("Mensaje añadido hola "+ req.body.text+" desde post)");
+router.post("/message",function(req, res){
+   // console.log(req.body);
+   // console.log(req.query);
+    //res.send("Mensaje añadido hola "+ req.body.text+" desde post)");
+    res.status(201).send(
+      [
+        {error:"",body:"Creado correctament"}
+      ]);
+ 
   });
 
 app.listen(3000);
