@@ -1,29 +1,47 @@
-const db = require("mongoose");
 const Model = require('./model');
-
-db.Promise = global.Promise;
-const options = {
-    keepAlive: 1,
-    useUnifiedTopology: true,
-    useNewUrlParser: true,
-};
-db.connect('mongodb+srv://willy:prueba1234@cluster0-02ibv.mongodb.net/telegram?retryWrites=true&w=majority', options)
-    .then(() =>console.log('DB connected'))
-    .catch((err) => {
-        console.log(err);
-    });
 
 function addMessage(message) {
     const fullMessage = new Model(message);
     fullMessage.save();
 }
 
-async function getMessages(){
-    const fullMessage = await Model.find();
-    return fullMessage;
+async function getMessages(filter){
+
+    return new Promise((resolve, reject) => {
+        let filterMsg = {};
+
+        if(filter != null){
+            filterMsg = {user:filter};
+        }
+        Model.find(filterMsg)
+                .populate("user")
+                .exec((error, populated) => {
+                if (error) {
+                    reject(error);
+                    return false;
+                }
+                resolve(populated);
+        });
+    });
 }
+async function updateMessageStore(id,message){
+    const foundMessage = await Model.findOne({_id:id});
+    foundMessage.message = message;
+
+    const newMsg = await foundMessage.save();
+    return newMsg;
+}
+
+function removeMessage(id) {
+    return Model.deleteOne({
+        _id:id
+    });
+}
+
 
 module.exports = {
     add:addMessage,
-    Getlist:getMessages
+    Getlist:getMessages,
+    updateMessageStore,
+    removeMessage
 }

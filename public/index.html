@@ -3,6 +3,189 @@
         <link rel="stylesheet" type="text/css" href="./css/style.css">
       </head>
     <body>
-        <b>Pàgina estático</b>
+        <b>Lista de exhibidor 2020 - 2021</b>
+        
     </body>
 </html>
+<script type="text/javascript">
+
+var users = {
+    nelson : {id:1,username: 'Nelson Pinto', disponiblidad:[2,3],precursor:1,acompananteMenorId:0,sexe:'H',estado_civil:'S',relacion:0},
+    laura : {id:2,username: 'Laura Pérez', disponiblidad: [2],precursor:1,acompananteMenorId:0,sexe:'M',estado_civil:'S',relacion:0},
+    toni : {id:3,username: 'Toñi Pérez', disponiblidad: [2,3],precursor:1,acompananteMenorId:0,sexe:'M',estado_civil:'C',relacion:0},
+    maria : {id:4,username: 'Maria de Carballa', disponiblidad: [2],precursor:1,acompananteMenorId:0,sexe:'M',estado_civil:'C',relacion:5},
+    jcarballa: {id:5,username: 'J.L. Carballa', disponiblidad: [],precursor:1,acompananteMenorId:0,sexe:'H',estado_civil:'C',relacion:4},
+    mcarmen : {id:6,username: 'Mari Carmen', disponiblidad: [2,3],precursor:1,acompananteMenorId:0,sexe:'M',estado_civil:'C',relacion:0},
+    Ana : {id:7,username: 'Ana Arcega', disponiblidad:  [2,3],precursor:1,acompananteMenorId:0,sexe:'M',estado_civil:'C',relacion:0},
+    marta : {id:8,username: 'Marta Arcega', disponiblidad: [3],precursor:0,acompananteMenorId:7,sexe:'M',estado_civil:'S',relacion:0},
+    ester : {id:9,username: 'Ester Lopez', disponiblidad:  [3],precursor:0,acompananteMenorId:6,sexe:'M',estado_civil:'S',relacion:0},   
+    wilson : {id:10,username: 'Wilson Pinto', disponiblidad: [2,3],precursor:0,acompananteMenorId:0,sexe:'H',estado_civil:'S',relacion:0},
+    rafeala : {id:11,username: 'Rafeala', disponiblidad:  [2],precursor:0,acompananteMenorId:0,sexe:'M',estado_civil:'V',relacion:0},
+    elizabet : {id:12,username: 'Elizabet', disponiblidad: [2],precursor:0,acompananteMenorId:0,sexe:'M',estado_civil:'C',relacion:0},
+    merce : {id:13,username: 'Mercé Beltran', disponiblidad: [2],precursor:0,acompananteMenorId:0,sexe:'M',estado_civil:'C',relacion:0},
+    teresab : {id:14,username: 'Teresa Beltran', disponiblidad: [2],precursor:0,acompananteMenorId:0,sexe:'M',estado_civil:'V',relacion:0},
+    teresar : {id:15,username: 'Teresa Merlo', disponiblidad:  [2],precursor:0,acompananteMenorId:0,sexe:'M',estado_civil:'C',relacion:0},
+    inma : {id:16,username: 'Inma', disponiblidad: [2],precursor:0,acompananteMenorId:0,sexe:'M',estado_civil:'C',relacion:0},
+    marcel : {id:17,username: 'Marcel', disponiblidad: [3],precursor:1,acompananteMenorId:0,sexe:'H',estado_civil:'C',relacion:0},
+    laly : {id:18,username: 'Lali', disponiblidad: [3],precursor:0,acompananteMenorId:0,sexe:'M',estado_civil:'C',relacion:0},
+    gemma : {id:19,username: 'Gemma', disponiblidad: [3],precursor:0,acompananteMenorId:0,sexe:'M',estado_civil:'C',relacion:20},
+    jordi : {id:20,username: 'Jordi Alfonso', disponiblidad:  [3],precursor:0,acompananteMenorId:0,sexe:'H',estado_civil:'C',relacion:19},
+    paula : {id:21,username: 'Paula', disponiblidad: [3],precursor:0,acompananteMenorId:18,sexe:'M',estado_civil:'S',relacion:0},
+    jabella : {id:22,username: 'J.L. Abella', disponiblidad: [3],precursor:0,acompananteMenorId:0,sexe:'H',estado_civil:'C',relacion:0},
+    nuria : {id:23,username: 'Nuria', disponiblidad: [2],precursor:0,acompananteMenorId:0,sexe:'M',estado_civil:'C',relacion:0}
+}
+
+// Users array
+var allUsers = [];
+
+// Populate users array
+for(var key in users) {
+    allUsers.push(users[key]);
+}
+
+function findValue(findId){
+   var name;
+    for(let i = 0; i < allUsers.length; i++) { 
+        if(allUsers[i].id == findId){
+            name=allUsers[i].username;
+        }
+    }
+    return  name;
+}
+var turno1=3;
+var arrayFinal= new Array();
+for (var i=0;i<allUsers.length;i++){
+    var name= allUsers[i].username;
+    for (var j=0;j<allUsers.length;j++){
+        if(turno1 == 3  || turno1 ==2){
+            //comprobar los disponibilidades entre dos hermanos-as
+            if(allUsers[j].id!= allUsers[i].id  && allUsers[i].disponiblidad.includes(turno1) && allUsers[j].disponiblidad.includes(turno1)){
+                if(allUsers[i].acompananteMenorId != 0){//asignar con los padres
+                    if(!arrayFinal.includes(allUsers[j].username+"-"+name)){
+                        arrayFinal.push(name+"-"+findValue(allUsers[i].acompananteMenorId));
+                        break;
+                    }
+                }else if(allUsers[j].acompananteMenorId != allUsers[i].id && allUsers[j].acompananteMenorId==0) 
+                {
+                    if(!arrayFinal.includes(allUsers[j].username+"-"+ name)){ //hombre casados
+                        if(allUsers[i].sexe == 'H' && (allUsers[j].sexe == 'H' || allUsers[j].estado_civil!='C')){
+                            arrayFinal.push(name+"-"+allUsers[j].username);
+                        
+                        }else if(allUsers[i].sexe == 'M'  && (allUsers[j].sexe == 'M'  || allUsers[j].estado_civil!='C')){
+                            arrayFinal.push(name+"-"+allUsers[j].username);//mujeres casadas
+                            console.log(name+"-"+allUsers[j].username);
+                        }
+                        else if(allUsers[i].relacion !=0 && allUsers[i].relacion == allUsers[j].id){ // matrimonio
+                            arrayFinal.push(name+"-"+findValue(allUsers[i].relacion));
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+  
+var arrayTurno1 = new Array();
+var arrayTurno2 = new Array();
+
+var html="<br />";
+
+for(var t=0;t<arrayFinal.length;t++){ 
+    if(turno1 == 3){
+        arrayTurno1.push(arrayFinal[t]); 
+        html += arrayFinal[t] + "<br />";
+    }
+    if(t<(arrayFinal.length/2) && turno1 == 2) {
+        arrayTurno1.push(arrayFinal[t]);
+        arrayTurno2.push(arrayFinal[arrayFinal.length - t -1 ]);
+        html+=arrayFinal[t]+"<br />"+arrayFinal[arrayFinal.length - t -1]+"<br />"; 
+    }
+}
+document.write(html);
+
+//shuffleArray(arrayTurno1);
+//shuffleArray(arrayTurno2);
+/*
+var x = new Date();
+//set the financial year starting date
+x.setFullYear(2020, 02, 01);
+//set the next financial year starting date
+var y = new Date();
+if(turno1 == 2)
+    y.setFullYear(2020, 07, 20);
+else
+    y.setFullYear(2020, 10, 01);
+var j = 1;
+var count = 0;
+var html="<table><tbody><tr><th>"+(turno1 == 2 ? "Martes":"Miércoles")+"</th><th>Turno 1</th>"+(turno1 == 2 ? "<th>Turno 2</th>":"")+"</tr>";
+//getting the all mondays in a financial year
+for (var i = 0; x < y; i += j) {
+        if (x.getDay() === 2) {
+            if(turno1==3 && arrayTurno1[count] === undefined || turno1 == 2 && arrayTurno2[count+1] === undefined){
+                count=0;
+            }
+            html+="<tr><td>" + x.getDate() + "/" +
+            (x.getMonth() + 1) +"</td><td>"+arrayTurno1[count] +"</td>"+(turno1 == 2 ?"<td>"+arrayTurno2[count] +"</td>" :"")+"</tr>";
+            x = new Date(x.getTime() + (7 * 24 * 60 * 60 * 1000));
+            j = 7;
+            count++;
+           
+        } else {
+            j = 1;
+            x = new Date(x.getTime() + (24 * 60 * 60 * 1000));
+        }
+}
+html+="</tbody></table>";
+document.write(html);
+*/
+function shuffleArray(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+}
+
+function findCommonElement(array1, array2) { 
+      // Loop for array1 
+      for(let i = 0; i < array1.length; i++) { 
+          // Loop for array2 
+          for(let j = 0; j < array2.length; j++) { 
+              // Compare the element of each and 
+              // every element from both of the 
+              // arrays 
+              if(array1[i] === array2[j]) { 
+                
+                  // Return if common element found 
+                  return true; 
+              } 
+          } 
+      } 
+      // Return if no common element exist 
+      return false;  
+  } 
+
+
+</script>
+
+
+<!--
+    MARTES			MIERCOLES
+------------   -------------
+NELSON			Laly
+LAURA			Gemma	
+TOÑI			Jordi
+MARIA 			Ester
+MCARMEN			Marcel
+JOSE LUIS		Paula
+ANA				J.L. Abella
+                Marta
+WILSON
+RAFEALA
+ELIZABET
+MERCE B.
+TERESA B.
+INMA
+TERE R.
+-->
